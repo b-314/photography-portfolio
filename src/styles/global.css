@@ -26,7 +26,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .landing {
     position: relative;
-    height: 100vh;
+    height: 80vh;
     min-height: 600px;
 
     display: flex;
@@ -61,4 +61,130 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 300;
     letter-spacing: 0.3em;
     text-transform: uppercase;
+}
+
+.about-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+
+    align-items: center;
+
+    max-width: 1300px;
+    margin: 8rem auto;
+    padding: 0 3rem;
+}
+
+.about-image img {
+    width: 100%;
+    max-width: 400px;
+    display: block;
+    object-fit: cover;
+    margin: 0 auto;
+}
+
+.about-text {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    padding: 3rem;
+}
+
+.about-text h2 {
+    font-size: 3rem;
+    font-weight: 400;
+}
+
+.about-text .subtitle {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    opacity: 0.7;
+}
+
+.about-text p {
+    color: #d9d9d9;
+    line-height: 1.8;
+}
+
+/* ---------- Corner Animation ---------- */
+
+.corner {
+    position: absolute;
+
+    width: 28px;
+    height: 28px;
+
+    transition: transform 0.35s ease;
+}
+
+.top-left {
+    top: 0;
+    left: 0;
+
+    border-top: 2px solid white;
+    border-left: 2px solid white;
+}
+
+.top-right {
+    top: 0;
+    right: 0;
+
+    border-top: 2px solid white;
+    border-right: 2px solid white;
+}
+
+.bottom-left {
+    bottom: 0;
+    left: 0;
+
+    border-bottom: 2px solid white;
+    border-left: 2px solid white;
+}
+
+.bottom-right {
+    bottom: 0;
+    right: 0;
+
+    border-bottom: 2px solid white;
+    border-right: 2px solid white;
+}
+
+/* Hover Animation */
+.about-text:hover .top-left {
+    transform: translate(-10px, -10px);
+}
+
+.about-text:hover .top-right {
+    transform: translate(10px, -10px);
+}
+
+.about-text:hover .bottom-left {
+    transform: translate(-10px, 10px);
+}
+
+.about-text:hover .bottom-right {
+    transform: translate(10px, 10px);
+}
+
+@media (max-width: 900px) {
+    .about-section {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .about-image {
+        order: 1;
+    }
+
+    .about-text {
+        order: 2;
+    }
+
+    .about-text h2 {
+        font-size: 2.5rem;
+    }
 }
