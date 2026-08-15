@@ -1,0 +1,58 @@
+---
+import Gallery from "../../components/Gallery.astro";
+import {
+    getCategories,
+    getImagesByCategory,
+} from "../../lib/gallery";
+import "../../styles/global.css";
+
+export function getStaticPaths() {
+    const categories = getCategories();
+
+    return categories.map((category) => ({
+        params: {
+            category,
+        },
+    }));
+}
+
+const { category } = Astro.params;
+
+if (!category) {
+    throw new Error("Gallery category was not provided.");
+}
+
+const images = getImagesByCategory(category);
+
+if (images.length === 0) {
+    return Astro.redirect("/gallery/");
+}
+
+const title =
+    category.charAt(0).toUpperCase() +
+    category.slice(1);
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width"
+        />
+
+        <title>{title} | Gallery</title>
+
+        <meta
+            name="description"
+            content={`Photography gallery featuring ${title.toLowerCase()} photographs.`}
+        />
+    </head>
+
+    <body>
+        <main>
+            <Gallery category={category} />
+        </main>
+    </body>
+</html>

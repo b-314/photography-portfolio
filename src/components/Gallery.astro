@@ -1,0 +1,69 @@
+---
+import { Image } from "astro:assets";
+import {
+    getCategories,
+    getImages,
+    getImagesByCategory,
+} from "../lib/gallery";
+
+interface Props {
+    category?: string;
+}
+
+const { category } = Astro.props;
+
+const categories = getCategories();
+
+const images = category
+    ? getImagesByCategory(category)
+    : getImages();
+
+const heading = category
+    ? category.charAt(0).toUpperCase() + category.slice(1)
+    : "Gallery";
+---
+
+<section class="gallery-section">
+    <aside class="gallery-sidebar">
+        <h2>{heading}</h2>
+        <nav>
+            <a
+                href="/gallery/"
+                class:list={{ active: !category }}
+            >
+                <span>All</span>
+                <span class="arrow">↗</span>
+            </a>
+
+            {
+                categories.map((cat) => (
+                    <a
+                        href={`/gallery/${cat}/`}
+                        class:list={{ active: cat === category }}
+                    >
+                        <span>
+                            {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                        </span>
+
+                        <span class="arrow">↗</span>
+                    </a>
+                ))
+            }
+        </nav>
+    </aside>
+
+    <div class="gallery-grid">
+        {
+            images.map(photo => (
+                <figure>
+                    <Image
+                        src={photo.image}
+                        alt={photo.name}
+                        loading="lazy"
+                    />
+                </figure>
+            ))
+        }
+    </div>
+
+</section>
