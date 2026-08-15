@@ -182,26 +182,29 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ---------- GALLERY ---------- */
 
-.gallery-section {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 4rem;
+.gallery-page-wrapper {
     max-width: 1500px;
     margin: 8rem auto;
     padding: 0 3rem;
+}
+
+.gallery-page-wrapper h2 {
+    font-size: 3rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+}
+
+.gallery-section {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 4rem;
 }
 
 .gallery-sidebar {
     position: sticky;
     top: 3rem;
     align-self: start;
-}
-
-.gallery-sidebar h2 {
-    font-size: 2.5rem;
-    font-weight: 400;
-    text-transform: uppercase; 
-    margin-bottom: 2rem;
 }
 
 .gallery-sidebar nav {

@@ -23,80 +23,80 @@ const heading = category
     : "Gallery";
 ---
 
-<section class="gallery-section">
-    <aside class="gallery-sidebar">
-        <h2>{heading}</h2>
-        <nav>
-            <a href="/" class="home-link">
-                <span>Home</span>
-                <span class="home-icon" aria-hidden="true">
-                    <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M3 10.5L12 3L21 10.5V21H14.5V15H9.5V21H3V10.5Z"
-                            stroke="currentColor"
-                            stroke-width="1.8"
-                            stroke-linejoin="round"
-                        />
-                    </svg>
-                </span>
-            </a>
+<div class="gallery-page-wrapper">
+    <h2>{heading}</h2>
+    
+    <section class="gallery-section">
+        <aside class="gallery-sidebar">
+            <nav>
+                <a href="/" class="home-link">
+                    <span>Home</span>
+                    <span class="home-icon" aria-hidden="true">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M3 10.5L12 3L21 10.5V21H14.5V15H9.5V21H3V10.5Z"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </span>
+                </a>
 
-            <a
-                href="/gallery/"
-                class:list={{ active: !category }}
-            >
-                <span>All</span>
-                <span class="arrow">↗</span>
-            </a>
+                <a
+                    href="/gallery/"
+                    class:list={{ active: !category }}
+                >
+                    <span>All</span>
+                    <span class="arrow">↗</span>
+                </a>
 
+                {
+                    categories.map((cat) => (
+                        <a
+                            href={`/gallery/${cat}/`}
+                            class:list={{ active: cat === category }}
+                        >
+                            <span>
+                                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                            </span>
+
+                            <span class="arrow">↗</span>
+                        </a>
+                    ))
+                }
+            </nav>
+        </aside>
+
+        <div class="gallery-grid">
             {
-                categories.map((cat) => (
-                    <a
-                        href={`/gallery/${cat}/`}
-                        class:list={{ active: cat === category }}
+                images.map((photo, index) => (
+                    <figure
+                        class="gallery-item"
+                        data-index={index}
+                        data-name={photo.name}
                     >
-                        <span>
-                            {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                        </span>
-
-                        <span class="arrow">↗</span>
-                    </a>
+                        <button
+                            class="gallery-image-button"
+                            type="button"
+                            aria-label={`Open ${photo.name}`}
+                        >
+                            <Image
+                                src={photo.image}
+                                alt={photo.name}
+                                loading="lazy"
+                            />
+                        </button>
+                    </figure>
                 ))
             }
-        </nav>
-    </aside>
-
-    <div class="gallery-grid">
-        {
-            images.map((photo, index) => (
-                <figure
-                    class="gallery-item"
-                    data-index={index}
-                    data-name={photo.name}
-                >
-                    <button
-                        class="gallery-image-button"
-                        type="button"
-                        aria-label={`Open ${photo.name}`}
-                    >
-                        <Image
-                            src={photo.image}
-                            alt={photo.name}
-                            loading="lazy"
-                        />
-                    </button>
-                </figure>
-            ))
-        }
-
-    </div>
-
-</section>
-
+        </div>
+    </section>
+</div>
 
 <!-- LIGHTBOX -->
 
