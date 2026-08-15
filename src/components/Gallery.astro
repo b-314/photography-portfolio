@@ -72,16 +72,187 @@ const heading = category
 
     <div class="gallery-grid">
         {
-            images.map(photo => (
-                <figure>
-                    <Image
-                        src={photo.image}
-                        alt={photo.name}
-                        loading="lazy"
-                    />
+            images.map((photo, index) => (
+                <figure
+                    class="gallery-item"
+                    data-index={index}
+                    data-name={photo.name}
+                >
+                    <button
+                        class="gallery-image-button"
+                        type="button"
+                        aria-label={`Open ${photo.name}`}
+                    >
+                        <Image
+                            src={photo.image}
+                            alt={photo.name}
+                            loading="lazy"
+                        />
+                    </button>
                 </figure>
             ))
         }
+
     </div>
 
 </section>
+
+
+<!-- LIGHTBOX -->
+
+<div
+    class="lightbox"
+    id="lightbox"
+    aria-hidden="true"
+>
+    <button
+        class="lightbox-close"
+        type="button"
+        aria-label="Close image"
+    >
+        &times;
+    </button>
+
+    <button
+        class="lightbox-arrow lightbox-prev"
+        type="button"
+        aria-label="Previous photo"
+    >
+        &#8592;
+    </button>
+
+    <div class="lightbox-content">
+        <img
+            class="lightbox-image"
+            id="lightbox-image"
+            src=""
+            alt=""
+        />
+    </div>
+
+    <button
+        class="lightbox-arrow lightbox-next"
+        type="button"
+        aria-label="Next photo"
+    >
+        &#8594;
+    </button>
+</div>
+
+
+<script>
+    const galleryItems = document.querySelectorAll<HTMLElement>(".gallery-item");
+    const lightbox = document.querySelector<HTMLElement>("#lightbox");
+    const lightboxImage = document.querySelector<HTMLImageElement>("#lightbox-image");
+    const closeButton = document.querySelector<HTMLButtonElement>(".lightbox-close");
+    const previousButton = document.querySelector<HTMLButtonElement>(".lightbox-prev");
+    const nextButton = document.querySelector<HTMLButtonElement>(".lightbox-next");
+
+    if (
+        lightbox &&
+        lightboxImage &&
+        closeButton &&
+        previousButton &&
+        nextButton
+    ) {
+        let currentIndex = 0;
+
+        const images = Array.from(galleryItems).map((item) => {
+            const image =
+                item.querySelector<HTMLImageElement>("img");
+
+            return {
+                src: image?.src ?? "",
+                alt: image?.alt ?? "",
+            };
+        });
+
+        function showImage(index: number) {
+            if (images.length === 0) {
+                return;
+            }
+
+            currentIndex =
+                (index + images.length) % images.length;
+
+            const image = images[currentIndex];
+
+            lightboxImage.src = image.src;
+            lightboxImage.alt = image.alt;
+        }
+
+        function openLightbox(index: number) {
+            showImage(index);
+
+            lightbox.classList.add("open");
+            lightbox.setAttribute("aria-hidden", "false");
+
+            document.body.classList.add("lightbox-open");
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove("open");
+            lightbox.setAttribute("aria-hidden", "true");
+
+            document.body.classList.remove("lightbox-open");
+
+            lightboxImage.src = "";
+            lightboxImage.alt = "";
+        }
+
+        function showPrevious() {
+            showImage(currentIndex - 1);
+        }
+
+        function showNext() {
+            showImage(currentIndex + 1);
+        }
+
+        galleryItems.forEach((item, index) => {
+            const button =
+                item.querySelector<HTMLButtonElement>(
+                    ".gallery-image-button"
+                );
+
+            button?.addEventListener("click", () => {
+                openLightbox(index);
+            });
+        });
+
+        closeButton.addEventListener("click", closeLightbox);
+
+        previousButton.addEventListener(
+            "click",
+            showPrevious
+        );
+
+        nextButton.addEventListener(
+            "click",
+            showNext
+        );
+
+        lightbox.addEventListener("click", (event) => {
+            if (event.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (!lightbox.classList.contains("open")) {
+                return;
+            }
+
+            if (event.key === "Escape") {
+                closeLightbox();
+            }
+
+            if (event.key === "ArrowLeft") {
+                showPrevious();
+            }
+
+            if (event.key === "ArrowRight") {
+                showNext();
+            }
+        });
+    }
+</script>

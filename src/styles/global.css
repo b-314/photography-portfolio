@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap");
 
 :root {
     font-family: "Lato", sans-serif;
@@ -22,7 +23,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: Helvetica, sans-serif;
+    font-family: Inter, sans-serif;
 }
 
 /* ---------- LANDING ---------- */
@@ -292,6 +293,142 @@ h1, h2, h3, h4, h5, h6 {
     transform: scale(1.02);
 }
 
+/* ---------- LIGHTBOX ---------- */
+
+body.lightbox-open {
+    overflow: hidden;
+}
+
+.gallery-image-button {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.gallery-image-button img {
+    width: 100%;
+    display: block;
+}
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 6rem;
+    background: rgba(0, 0, 0, 0.92);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+}
+
+.lightbox.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.lightbox-image {
+    max-width: 100%;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    user-select: none;
+}
+
+/* ---------- Close Button ---------- */
+
+.lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    z-index: 1002;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: none;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 300;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.75;
+    transition: opacity 0.2s ease;
+}
+
+.lightbox-close:hover {
+    opacity: 1;
+}
+
+/* ---------- Navigation Arrows ---------- */
+
+.lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 1002;
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: transparent; 
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 2.5rem;
+    font-weight: 300;
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: 
+        color 0.2s ease,
+        transform 0.2s ease,
+        text-shadow 0.2s ease;
+}
+
+.lightbox-arrow:hover {
+    color: #ffffff; 
+    background: transparent;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.6); 
+}
+
+.lightbox-prev {
+    left: 1.5rem;
+}
+
+.lightbox-next {
+    right: 1.5rem;
+}
+
+.lightbox-prev:hover {
+    transform: translate(-4px, -50%);
+}
+
+.lightbox-next:hover {
+    transform: translate(4px, -50%);
+}
+
+/* ---------- Mobile ---------- */
+
 @media (max-width: 1200px) {
     .gallery-grid {
         column-count: 3;
@@ -338,7 +475,41 @@ h1, h2, h3, h4, h5, h6 {
 
     }
 
+    .gallery-sidebar nav a {
+        align-items: center;
+        height: 1.5rem;
+    }
+
     .gallery-grid {
         column-count: 2;
+    }
+
+    .lightbox {
+        padding: 3rem 1rem;
+    }
+
+    .lightbox-close {
+        top: 1rem;
+        right: 1rem;
+    }
+
+    .lightbox-arrow {
+        width: 2.75rem;
+        height: 2.75rem;
+
+        font-size: 1.4rem;
+    }
+
+    .lightbox-prev {
+        left: 0.75rem;
+    }
+
+    .lightbox-next {
+        right: 0.75rem;
+    }
+
+    .lightbox-image {
+        max-width: calc(100vw - 5rem);
+        max-height: 85vh;
     }
 }
